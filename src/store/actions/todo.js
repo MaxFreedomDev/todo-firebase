@@ -26,8 +26,13 @@ export const getItems = () => (dispatch) => {
   });
 };
 
-export const createItem = (payload) => (dispatch) => {
-  db.ref("items").child(`${payload.id}`).set(payload);
+export const createItemAction = (payload) => (dispatch) => {
+  db.ref("items")
+    .child(`${payload.id}`)
+    .set(payload)
+    .then(() => {
+      dispatch(getItems);
+    });
 };
 
 export const deleteItem = (id) => (dispatch) => {
@@ -36,5 +41,14 @@ export const deleteItem = (id) => (dispatch) => {
     .remove()
     .then(() => {
       dispatch(getItems);
+    });
+};
+
+export const updateItem = (payload) => (dispatch) => {
+  db.ref(`items`)
+    .child(`${payload.id}`)
+    .set(payload)
+    .then(() => {
+      dispatch(getItems());
     });
 };

@@ -1,22 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./app.css";
 import AppHeader from "../app-header/app-header";
 import SearchPanel from "../search-panel/search-panel";
 import ItemStatusFilter from "../item-status-filter/item-status-filter";
 import TodoList from "../todo-list/todo-list";
 import ItemAddForm from "../item-add-form/item-add-form";
+import { useSelector } from "react-redux";
+import Loader from "../loader/loader";
+import { useActions } from "../../hooks/use-action";
 
 const App = () => {
-  let maxId = 100;
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
-  const [items, setItems] = useState([
-    { id: 1, label: "Drink Coffee", important: false, done: false },
-    { id: 2, label: "Learn React", important: true, done: false },
-    { id: 3, label: "Make Awesome App", important: false, done: false },
-  ]);
-  const doneCount = items.filter((item) => item.done).length;
-  const toDoCount = items.length - doneCount;
+  const { items, loading } = useSelector((state) => state.todo);
+  const { createItemAction, getItems, updateItem, deleteItem } = useActions();
+
+  const doneCount = items?.filter((item) => item.done).length;
+  const toDoCount = items?.length - doneCount;
+
+  useEffect(() => {
+    getItems();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const searchItems = (items, search) => {
     if (search.length === 0) {
@@ -42,30 +47,26 @@ const App = () => {
     const idx = arr.findIndex((item) => item.id === id);
     const oldItem = arr[idx];
     const value = !oldItem[propName];
-
-    const item = { ...arr[idx], [propName]: value };
-    return [...arr.slice(0, idx), item, ...arr.slice(idx + 1)];
+    return { ...arr[idx], [propName]: value };
   };
 
   const onToggleImportant = (id) => {
     const item = toggleProperty(items, id, "important");
-    setItems(item);
+    updateItem(item);
   };
 
   const onToggleDone = (id) => {
     const item = toggleProperty(items, id, "done");
-    setItems(item);
+    updateItem(item);
   };
 
   const onDelete = (id) => {
-    const idx = items.findIndex((item) => item.id === id);
-    const item = [...items.slice(0, idx), ...items.slice(idx + 1)];
-    setItems(item);
+    deleteItem(id);
   };
 
   const createItem = (label) => {
     return {
-      id: ++maxId,
+      id: items.length === 0 ? 0 : items[items.length - 1]?.id + 1,
       label,
       important: false,
       done: false,
@@ -74,7 +75,7 @@ const App = () => {
 
   const onItemAdded = (label) => {
     const item = createItem(label);
-    setItems([...items, item]);
+    createItemAction(item);
   };
 
   const visibleItems = searchItems(filterItems(items, filter), search);
@@ -86,12 +87,16 @@ const App = () => {
         <SearchPanel onSearchChange={setSearch} />
         <ItemStatusFilter filter={filter} onFilterChange={setFilter} />
       </div>
-      <TodoList
-        items={visibleItems}
-        onToggleImportant={onToggleImportant}
-        onToggleDone={onToggleDone}
-        onDelete={onDelete}
-      />
+      {loading ? (
+        <Loader />
+      ) : (
+        <TodoList
+          items={visibleItems}
+          onToggleImportant={onToggleImportant}
+          onToggleDone={onToggleDone}
+          onDelete={onDelete}
+        />
+      )}
       <ItemAddForm onItemAdded={onItemAdded} />
     </div>
   );

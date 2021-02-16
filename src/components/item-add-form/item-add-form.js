@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./item-add-form.css";
 
-const ItemAddForm = ({ onItemAdded }) => {
+const ItemAddForm = ({ onItemAdded, loading }) => {
   const [label, setLabel] = useState("");
 
   const onSubmit = (e) => {
@@ -20,7 +20,11 @@ const ItemAddForm = ({ onItemAdded }) => {
         placeholder="Добавить задачу"
       />
 
-      <button type="submit" className="btn btn-outline-secondary">
+      <button
+        type="submit"
+        className="btn btn-outline-secondary"
+        disabled={loading}
+      >
         Add
       </button>
     </form>
