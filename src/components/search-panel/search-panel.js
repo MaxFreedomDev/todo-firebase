@@ -15,7 +15,7 @@ const SearchPanel = props => {
         return (
             <input type="text"
                    className="search-panel search-input"
-                   placeholder="type to search"
+                   placeholder="поиск"
                    value={term}
                    onChange={ onTermChange } />
         );
