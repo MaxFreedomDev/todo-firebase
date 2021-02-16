@@ -1,24 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import "./search-panel.css";
 
-const SearchPanel = props => {
+const SearchPanel = (props) => {
+  const [term, setTerm] = useState("");
 
-    const [term, setTerm] = useState("");
+  const onTermChange = (e) => {
+    const { onSearchChange = () => {} } = props;
+    setTerm(e.target.value);
 
-    const onTermChange = (e) => {
-        const {onSearchChange = () => {}} = props;
-        setTerm(e.target.value);
+    onSearchChange(e.target.value);
+  };
 
-        onSearchChange(e.target.value);
-    };
-
-        return (
-            <input type="text"
-                   className="search-panel search-input"
-                   placeholder="поиск"
-                   value={term}
-                   onChange={ onTermChange } />
-        );
+  return (
+    <input
+      type="text"
+      className="search-panel search-input"
+      placeholder="Поиск..."
+      value={term}
+      onChange={onTermChange}
+    />
+  );
 };
 
 export default SearchPanel;

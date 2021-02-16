@@ -1,5 +1,5 @@
 .app-header {
-    align-items: flex-end;
+    align-items: center;
 }
 
 .app-header h1 {
@@ -9,4 +9,5 @@
 .app-header h2 {
     font-size: 1.2rem;
     color: grey;
+    margin: 0;
 }
