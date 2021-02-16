@@ -4,8 +4,10 @@ import AppHeader from "../app-header/app-header";
 import SearchPanel from "../search-panel/search-panel";
 import ItemStatusFilter from "../item-status-filter/item-status-filter";
 import TodoList from "../todo-list/todo-list";
+import ItemAddForm from "../item-add-form/item-add-form";
 
 const App = () => {
+  let maxId = 100;
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
   const [items, setItems] = useState([
@@ -61,6 +63,20 @@ const App = () => {
     setItems(item);
   };
 
+  const createItem = (label) => {
+    return {
+      id: ++maxId,
+      label,
+      important: false,
+      done: false,
+    };
+  };
+
+  const onItemAdded = (label) => {
+    const item = createItem(label);
+    setItems([...items, item]);
+  };
+
   const visibleItems = searchItems(filterItems(items, filter), search);
 
   return (
@@ -76,6 +92,7 @@ const App = () => {
         onToggleDone={onToggleDone}
         onDelete={onDelete}
       />
+      <ItemAddForm onItemAdded={onItemAdded} />
     </div>
   );
 };
