@@ -13,10 +13,10 @@ const App = () => {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
   const { items, loading } = useSelector((state) => state.todo);
-  const { createItemAction, getItems, updateItem, deleteItem } = useActions();
+  const { createItemAction, getItems, updateItem } = useActions();
 
-  const doneCount = items?.filter((item) => item.done).length;
-  const toDoCount = items?.length - doneCount;
+  const doneCount = items.filter((item) => item.done).length;
+  const toDoCount = items.length - doneCount;
 
   useEffect(() => {
     getItems();
@@ -47,7 +47,8 @@ const App = () => {
     const idx = arr.findIndex((item) => item.id === id);
     const oldItem = arr[idx];
     const value = !oldItem[propName];
-    return { ...arr[idx], [propName]: value };
+    const item = { ...arr[idx], [propName]: value };
+    return [...arr.slice(0, idx), item, ...arr.slice(idx + 1)];
   };
 
   const onToggleImportant = (id) => {
@@ -61,7 +62,9 @@ const App = () => {
   };
 
   const onDelete = (id) => {
-    deleteItem(id);
+    const idx = items.findIndex((item) => item.id === id);
+    const item = [...items.slice(0, idx), ...items.slice(idx + 1)];
+    updateItem(item);
   };
 
   const createItem = (label) => {

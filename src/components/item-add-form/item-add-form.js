@@ -23,7 +23,7 @@ const ItemAddForm = ({ onItemAdded, loading }) => {
       <button
         type="submit"
         className="btn btn-outline-secondary"
-        disabled={loading}
+        disabled={label === "" || loading}
       >
         Add
       </button>

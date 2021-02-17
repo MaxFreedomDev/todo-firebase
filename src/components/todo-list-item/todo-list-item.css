@@ -1,5 +1,7 @@
 .todo-list-item {
     font-size: 1.25rem;
+    display: flex;
+    justify-content: space-between;
 }
 
 .todo-list-item button {
@@ -12,6 +14,7 @@
     line-height: 35px;
     cursor: pointer;
     user-select: none;
+    word-break: break-word;
 }
 
 .todo-list-item.done .todo-list-item-label {
@@ -21,4 +24,10 @@
 .todo-list-item.important .todo-list-item-label {
     font-weight: bold;
     color: steelblue;
+}
+
+@media (max-width: 400px) {
+    .todo-list-item-label {
+        font-size: 14px;
+    }
 }

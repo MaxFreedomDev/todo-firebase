@@ -20,7 +20,7 @@ export const getItems = () => (dispatch) => {
   db.ref(`items`).on("value", (snap) => {
     let data = snap.val();
     if (data === null) {
-      return null;
+      return dispatch(getItemsList([]));
     }
     dispatch(getItemsList(data));
   });
@@ -35,18 +35,8 @@ export const createItemAction = (payload) => (dispatch) => {
     });
 };
 
-export const deleteItem = (id) => (dispatch) => {
-  db.ref("items")
-    .child(`${id}`)
-    .remove()
-    .then(() => {
-      dispatch(getItems);
-    });
-};
-
 export const updateItem = (payload) => (dispatch) => {
   db.ref(`items`)
-    .child(`${payload.id}`)
     .set(payload)
     .then(() => {
       dispatch(getItems());

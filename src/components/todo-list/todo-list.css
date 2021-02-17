@@ -1,3 +1,14 @@
 .todo-list .list-group-item {
     padding: .25rem .75rem;
 }
+.list-group-item span {
+    word-wrap: break-word;
+}
+
+@media (max-width: 400px) {
+    .list-group-item {
+        width: 90%;
+        margin: 0 auto;
+        flex-direction: column;
+    }
+}

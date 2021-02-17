@@ -25,21 +25,23 @@ const TodoListItem = ({
         {label}
       </span>
 
-      <button
-        type="button"
-        className="btn btn-outline-success btn-sm float-right"
-        onClick={onToggleImportant}
-      >
-        <i className="fa fa-exclamation" />
-      </button>
-
-      <button
-        type="button"
-        className="btn btn-outline-danger btn-sm float-right"
-        onClick={onDelete}
-      >
-        <i className="fa fa-trash-o" />
-      </button>
+      <div>
+        {" "}
+        <button
+          type="button"
+          className="btn btn-outline-success btn-sm float-right"
+          onClick={onToggleImportant}
+        >
+          <i className="fa fa-exclamation" />
+        </button>
+        <button
+          type="button"
+          className="btn btn-outline-danger btn-sm float-right"
+          onClick={onDelete}
+        >
+          <i className="fa fa-trash-o" />
+        </button>
+      </div>
     </span>
   );
 };

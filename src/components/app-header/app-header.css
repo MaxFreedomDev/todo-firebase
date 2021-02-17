@@ -1,3 +1,4 @@
+
 .app-header {
     align-items: center;
 }
@@ -10,4 +11,15 @@
     font-size: 1.2rem;
     color: grey;
     margin: 0;
+}
+
+@media (max-width: 400px) {
+    .app-header {
+        width: 90%;
+        margin: 0 auto;
+        flex-direction: column;
+    }
+    .search-panel .search-input {
+        width: 90%;
+    }
 }
